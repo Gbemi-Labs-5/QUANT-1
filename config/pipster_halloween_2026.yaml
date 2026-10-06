@@ -1,20 +1,99 @@
 contest:
   name: "Pipster Halloween 2026"
-  official_rules_source: "https://www.pipster.io/faq"
-  source_note: "Public site inspected on 2026-10-06; machine-readable contest parameters were not present."
+  official_rules_source: "https://www.pipster.io/how-it-works"
+  alternative_rules_source: "https://www.pipster.io/faq"
+  retrieval_date: "2026-10-06"
   status: "public-source-only"
+  rule_scope: "official public challenge product rules were inspected; the specific Halloween 2026 contest rules remain unverified in the public material"
 
 trading:
   timezone: "UTC"
   session_open_local: "08:00"
   session_close_local: "16:00"
 
+risk:
+  daily_drawdown_limit: null
+  max_drawdown_limit: null
+  minimum_trading_days: null
+  max_daily_contribution: null
+  max_position_size: null
+
+verified_rules:
+  challenge_examples:
+    - name: "One Phase Challenge"
+      profit_target_pct: 10.0
+      daily_drawdown_pct: 4.0
+      max_drawdown_pct: 8.0
+      minimum_trading_days: 5
+      source: "https://www.pipster.io/how-it-works"
+      notes: "official public product rule example; not necessarily the Halloween 2026 event specifics"
+    - name: "Two Phase Challenge"
+      phase_1_profit_target_pct: 8.0
+      phase_1_daily_drawdown_pct: 5.0
+      phase_1_max_drawdown_pct: 10.0
+      phase_1_minimum_trading_days: 5
+      phase_2_profit_target_pct: 5.0
+      phase_2_daily_drawdown_pct: 5.0
+      phase_2_max_drawdown_pct: 10.0
+      phase_2_minimum_trading_days: 3
+      source: "https://www.pipster.io/how-it-works"
+      notes: "official public product rule example; not necessarily the Halloween 2026 event specifics"
+    - name: "Instant Funded Account"
+      daily_drawdown_pct: 3.0
+      max_drawdown_pct: 10.0
+      drawdown_mode: "trailing"
+      source: "https://www.pipster.io/how-it-works"
+      notes: "official public product rule example; not necessarily the Halloween 2026 event specifics"
+    - name: "Pipster Entry"
+      profit_target_pct: 6.0
+      static_max_drawdown_pct: 6.0
+      daily_loss_limit_pct: null
+      consistency_rule: "none"
+      time_limit: "none"
+      source: "https://www.pipster.io/how-it-works"
+      notes: "official public product rule example; not necessarily the Halloween 2026 event specifics"
+
+verification:
+  values_verified: true
+  values_unverified: [
+    "contest_start_date",
+    "contest_end_date",
+    "timezone",
+    "session_times",
+    "symbol_universe",
+    "account_size",
+    "ranking_metric",
+    "allowed_strategies",
+    "prohibited_strategies",
+    "EA_or_bot_restrictions",
+    "scalping_restrictions",
+    "latency_arbitrage_restrictions",
+    "news_trading_restrictions",
+    "minimum_holding_period",
+    "weekend_holding_restrictions",
+    "position_sizing_rule",
+    "daily_contribution_cap",
+    "execution_latency_rule"
+  ]
+
 unknowns:
   start_date: null
   end_date: null
   symbol_universe: null
   account_size: null
-  daily_drawdown_limit: null
-  max_position_size: null
   ranking_method: null
-  
+  daily_drawdown_limit: null
+  max_drawdown_limit: null
+  minimum_trading_days: null
+  timezone: "UTC"
+  session_open_local: "08:00"
+  session_close_local: "16:00"
+  maximum_daily_contribution: null
+  permitted_strategies: null
+  prohibited_strategies: null
+  ea_or_bot_restrictions: null
+  latency_arbitrage_restrictions: null
+  scalping_restrictions: null
+  minimum_holding_period: null
+  news_trading_restrictions: null
+  inactivity_rule: null
