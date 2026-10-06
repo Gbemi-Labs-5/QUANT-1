@@ -1,0 +1,53 @@
+{
+  "dataset": "synthetic_test",
+  "results": [
+    {
+      "strategy": "breakout",
+      "total_return": 0.051201899890175984,
+      "win_rate": 0.9414225941422594,
+      "sharpe": 1.6466172597234967,
+      "average_trade": 0.00020895948370285597,
+      "num_trades": 239
+    },
+    {
+      "strategy": "ensemble",
+      "total_return": 0.0005751214297129437,
+      "win_rate": 0.631578947368421,
+      "sharpe": 0.3512036988955122,
+      "average_trade": 1.5131466133542682e-05,
+      "num_trades": 38
+    },
+    {
+      "strategy": "trend",
+      "total_return": 0.0,
+      "win_rate": 0.0,
+      "sharpe": 0.0,
+      "average_trade": 0.0,
+      "num_trades": 0
+    },
+    {
+      "strategy": "momentum",
+      "total_return": 0.0,
+      "win_rate": 0.0,
+      "sharpe": 0.0,
+      "average_trade": 0.0,
+      "num_trades": 0
+    },
+    {
+      "strategy": "mean_reversion",
+      "total_return": -0.0490359981184354,
+      "win_rate": 0.00904977375565611,
+      "sharpe": -2.011594287103761,
+      "average_trade": -0.0002274748325550955,
+      "num_trades": 221
+    }
+  ],
+  "best_strategy": "breakout",
+  "quality": {
+    "valid": true,
+    "duplicate_timestamps": 0,
+    "negative_spreads": 0,
+    "missing_values": 0,
+    "ordered": true
+  }
+}
