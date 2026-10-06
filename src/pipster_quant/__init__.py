@@ -4,6 +4,9 @@ __all__ = [
     "AIEvent",
     "PipsterRules",
     "RiskEngine",
+    "CompetitionRiskEngine",
+    "PortfolioAnalytics",
+    "PortfolioMetrics",
     "SessionBoundary",
     "TradingClock",
     "SyntheticMarketDataProvider",
@@ -29,7 +32,7 @@ from .execution import EventDrivenBacktester
 from .features import compute_feature_frame
 from .ml import fit_direction_model, predict_direction_probability
 from .regime import detect_regime
-from .risk import RiskEngine
+from .risk import CompetitionRiskEngine, PortfolioAnalytics, PortfolioMetrics, RiskEngine
 from .strategies import (
     BreakoutStrategy,
     EnsembleStrategy,

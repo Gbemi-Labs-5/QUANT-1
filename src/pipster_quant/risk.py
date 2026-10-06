@@ -1,6 +1,22 @@
 from __future__ import annotations
 
+import math
+import statistics
 from dataclasses import dataclass, field
+
+
+@dataclass(frozen=True)
+class PortfolioAnalytics:
+    cumulative_return: float
+    annualized_return: float
+    annualized_volatility: float
+    sharpe_ratio: float
+    sortino_ratio: float
+    win_rate: float
+    max_drawdown: float
+    current_drawdown: float
+    daily_return_mean: float
+    daily_return_volatility: float
 
 
 @dataclass
@@ -81,6 +97,7 @@ class PortfolioMetrics:
     position_count: int
     concentration: float
     rule_violations: list[str]
+    analytics: PortfolioAnalytics | None = None
 
 
 class CompetitionRiskEngine(RiskEngine):
@@ -89,10 +106,9 @@ class CompetitionRiskEngine(RiskEngine):
 
     def evaluate_run(self, equity_curve: list[float], daily_pnl: list[float], exposure: float = 0.0, position_count: int = 0, concentration: float = 0.0) -> PortfolioMetrics:
         if not equity_curve:
-            return PortfolioMetrics([], [], 0.0, 0.0, 0.0, 0, 0, 0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0, 0.0, [])
+            return PortfolioMetrics([], [], 0.0, 0.0, 0.0, 0, 0, 0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0, 0.0, [], analytics=None)
 
         cumulative_pnl = equity_curve[-1] - equity_curve[0]
-        running_peak = max(equity_curve)
         drawdown = [max(0.0, (peak - value) / max(peak, 1e-8)) for value, peak in zip(equity_curve, [max(equity_curve[: i + 1]) for i in range(len(equity_curve))])]
         current_drawdown = drawdown[-1] if drawdown else 0.0
         max_drawdown = max(drawdown) if drawdown else 0.0
@@ -102,6 +118,39 @@ class CompetitionRiskEngine(RiskEngine):
         largest_winning_day = max(daily_pnl) if daily_pnl else 0.0
         largest_losing_day = min(daily_pnl) if daily_pnl else 0.0
         max_single_day_contribution = max(abs(value) for value in daily_pnl) if daily_pnl else 0.0
+
+        daily_returns = []
+        for idx in range(1, len(equity_curve)):
+            previous = equity_curve[idx - 1]
+            current = equity_curve[idx]
+            if previous > 0:
+                daily_returns.append((current / previous) - 1.0)
+        cumulative_return = (equity_curve[-1] / max(equity_curve[0], 1e-8)) - 1.0
+        daily_return_mean = statistics.fmean(daily_returns) if daily_returns else 0.0
+        daily_return_volatility = statistics.pstdev(daily_returns) if len(daily_returns) > 1 else 0.0
+        annualized_return = 0.0
+        if daily_returns:
+            period_compound = math.prod(1.0 + value for value in daily_returns)
+            annualized_return = (period_compound ** (252.0 / max(len(daily_returns), 1)) - 1.0)
+        annualized_volatility = daily_return_volatility * math.sqrt(252.0)
+        sharpe_ratio = (annualized_return / annualized_volatility) if annualized_volatility > 0 else 0.0
+        downside_returns = [value for value in daily_returns if value < 0.0]
+        downside_volatility = statistics.pstdev(downside_returns) if len(downside_returns) > 1 else 0.0
+        sortino_ratio = (annualized_return / (downside_volatility * math.sqrt(252.0))) if downside_volatility > 0 else 0.0
+        win_rate = profitable_days / max(trading_days, 1)
+
+        analytics = PortfolioAnalytics(
+            cumulative_return=float(cumulative_return),
+            annualized_return=float(annualized_return),
+            annualized_volatility=float(annualized_volatility),
+            sharpe_ratio=float(sharpe_ratio),
+            sortino_ratio=float(sortino_ratio),
+            win_rate=float(win_rate),
+            max_drawdown=float(max_drawdown),
+            current_drawdown=float(current_drawdown),
+            daily_return_mean=float(daily_return_mean),
+            daily_return_volatility=float(daily_return_volatility),
+        )
 
         violations: list[str] = []
         if self.max_drawdown_limit is not None and max_drawdown > self.max_drawdown_limit:
@@ -129,4 +178,5 @@ class CompetitionRiskEngine(RiskEngine):
             position_count=int(position_count),
             concentration=float(concentration),
             rule_violations=violations,
+            analytics=analytics,
         )
