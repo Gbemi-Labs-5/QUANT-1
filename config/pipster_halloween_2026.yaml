@@ -1,0 +1,19 @@
+contest:
+  name: "Pipster Halloween 2026"
+  official_rules_source: "https://www.pipster.io/faq"
+  source_note: "Public site inspected on 2026-10-06; machine-readable contest parameters were not present."
+  status: "public-source-only"
+
+trading:
+  timezone: "UTC"
+  session_open_local: "08:00"
+  session_close_local: "16:00"
+
+unknowns:
+  start_date: null
+  end_date: null
+  symbol_universe: null
+  account_size: null
+  daily_drawdown_limit: null
+  max_position_size: null
+  ranking_method: null
